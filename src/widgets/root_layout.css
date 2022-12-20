@@ -1,0 +1,15 @@
+.root_layout {
+  position: absolute;
+  overflow: auto;
+  inset: 0;
+}
+
+.root_layout_header {
+  display: flex;
+}
+
+.root_layout_content {
+  width: 1280px; /* TODO: flexible `max-width` */
+  margin: 0 auto;
+  padding: 24px 50px;
+}
