@@ -1,7 +1,7 @@
-import { Button, Col, Drawer, Row } from "antd";
+import { Button, Col, Drawer, Modal, Row } from "antd";
 import { FC } from "react";
 import {
-  closeProjectDrawer,
+  closeNewProjectDrawer,
   selectNewProjectDrawerOpen,
 } from "../../entities/drawer/slice";
 import { ProjectForm } from "../../entities/project/form";
@@ -13,22 +13,39 @@ export const CreateNewProject: FC = () => {
   const handleSubmit = () => projectForm.submit();
   const handleReset = () => projectForm.resetFields();
   const handleResetIfNotOpen = (open: boolean) => {
-    if (!open) handleReset();
+    if (!open) {
+      handleReset();
+    }
   };
   const dispatch = useAppDispatch();
-  const handleClose = () => dispatch(closeProjectDrawer());
+  const handleClose = () => dispatch(closeNewProjectDrawer());
+  const handleCloseWithConfirmIfTouched = () => {
+    if (projectForm.isFieldsTouched()) {
+      const { destroy } = Modal.confirm({
+        title: "Cancel without saving",
+        content:
+          "This action will proceed to close the form without saving fields values.",
+        onOk: () => {
+          handleClose();
+          destroy();
+        },
+      });
+      return;
+    }
+    handleClose();
+  };
   const open = useAppSelector(selectNewProjectDrawerOpen);
   return (
     <Drawer
       closable={false}
       title="New Project"
       open={open}
-      onClose={handleClose}
+      onClose={handleCloseWithConfirmIfTouched}
       afterOpenChange={handleResetIfNotOpen}
       footer={
         <Row justify="end" gutter={[24, 24]}>
           <Col>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleCloseWithConfirmIfTouched}>Cancel</Button>
           </Col>
           <Col>
             <Button type="primary" onClick={handleSubmit}>

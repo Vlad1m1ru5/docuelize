@@ -24,10 +24,10 @@ export const drawerSlice = createSlice({
   initialState,
   reducers: {
     openNewProjectDrawer: (state) => {
-      state.projectDrawer.open = true;
+      state.newProjectDrawer.open = true;
     },
     closeNewProjectDrawer: (state) => {
-      state.projectDrawer.open = false;
+      state.newProjectDrawer.open = false;
     },
     openProjectDrawer: (state) => {
       state.projectDrawer.open = true;
