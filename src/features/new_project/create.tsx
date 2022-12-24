@@ -20,19 +20,17 @@ export const CreateNewProject: FC = () => {
   const dispatch = useAppDispatch();
   const handleClose = () => dispatch(closeNewProjectDrawer());
   const handleCloseWithConfirmIfTouched = () => {
-    if (projectForm.isFieldsTouched()) {
-      const { destroy } = Modal.confirm({
-        title: "Cancel without saving",
-        content:
-          "This action will proceed to close the form without saving fields values.",
-        onOk: () => {
-          handleClose();
-          destroy();
-        },
-      });
-      return;
+    if (!projectForm.isFieldsTouched()) {
+      return handleClose();
     }
-    handleClose();
+    const { destroy } = Modal.confirm({
+      title: "Cancel without saving",
+      content: "This action will close the form without saving fields values.",
+      onOk: () => {
+        handleClose();
+        destroy();
+      },
+    });
   };
   const open = useAppSelector(selectNewProjectDrawerOpen);
   return (
